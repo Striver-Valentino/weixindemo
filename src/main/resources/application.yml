@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://222.31.67.175/sell?characterEncoding=utf-8&useSSL=false
+  jpa:
+    show-sql: true
+  jackson:
+    default-property-inclusion: non_null  # 在 序列化 为 json 时，只 序列化 不为 null 的属性。全局 适用 。
+server:
+  context-path: /sell  # 整个项目的 url 前缀，所有 Controller 的 @RequestMapping 定义 的 url，在访问时 前面 都加上 /sell 。
+
+#logging:
+#  pattern:
+#    console: "%d - %msg%n" # 日志 在控制台 的 格式 是  时间（%d） + 日志信息（%msg） + 换行（%n）
+#  #path: G:\JAVA\imooc_Java\Enterprise_WeChat_ordering_system_with_SpringBoot\log\tomcat # 指定 日志 输出到 指定 路径下，默认文件名是 spring.log
+#  file: G:\JAVA\imooc_Java\Enterprise_WeChat_ordering_system_with_SpringBoot\log\tomcat\sell.log # 指定 日志 输出到 指定 路径下的文件
+#  #level: debug # 指定所有日志的级别都是 debug
+#  level:
+#    LoggerTest:debug # 指定 只有 LoggerTest 类 的 日志 级别是 debug
+
+wechat:
+  #mpAppId: wxa2b55daee50dc2ce
+  mpAppSecret: 5fa4d6dc4e3bc48e4def7d31043a9779
+  mpAppId: wxd898fcb01713c658
+  mchId: 1483469312
+  mchKey: C5245D70627C1F8E9964D494B0735025
+  keyPath: G:\JAVA\imooc_Java\Enterprise_WeChat_ordering_system_with_SpringBoot\h5.p12
+  notifyUrl: http://sell1005.natapp1.cc/sell/pay/notify
+
+
+
+
+
+

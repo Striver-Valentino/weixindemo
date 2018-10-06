@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+
+    <!-- 一个appender 就是一个 配置项 -->
+    <!-- 这里的这个appender 是配置 控制台日志显示 的；当然，也可以有 其它 的 配置，再 写一个 appender 就可以了  -->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender"> <!-- 这里 的 class，是配置 使用到的 类，这些都是 定义好的，直接用 即可 -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                <!-- %d - %msg%n -->
+                %date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%thread]%logger{56}.%method:%L -%msg%n
+            </pattern>
+        </layout>
+    </appender>
+
+    <!-- 负责 滚动 打印 Info 日志  -->
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender"> <!-- RollingFileAppender 类，可以滚动 输出 日志，即 每天 都生成 一个日志文件 -->
+        <!-- 过滤 ，只打印 info ；LevelFilter 根据 日志级别 过滤 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--
+                <level>INFO</level>  这样 是不能 过滤 ERROR 的，因为 当前 日志级别是 INFO ，那么 INFO及INFO以上的都会打印，而 ERROR 在 INFO 以上 。
+            -->
+
+            <level>ERROR</level> <!-- 设置当前日志级别是 ERROR -->
+            <onMatch>DENY</onMatch> <!-- 如果和当前日志级别（ERROR）匹配，就 拒绝。（即 过滤 ERROR）  -->
+            <onMismatch>ACCEPT</onMismatch> <!-- 如果和当前日志级别（ERROR）不匹配，就 接受。（即 info 等 可以 打印，warn 也会打印）  -->
+        </filter>
+
+        <encoder>
+            <pattern> <!-- 日志格式 -->
+                %msg%n
+            </pattern>
+        </encoder>
+
+        <!-- 配置滚动策略 --> <!-- TimeBasedRollingPolicy 是 按时间 滚动，每天 都生成 一个日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件 路径 -->
+            <fileNamePattern>
+                <!-- 直接在 文件名 里 带上 日期 -->
+                G:\JAVA\imooc_Java\Enterprise_WeChat_ordering_system_with_SpringBoot\log\tomcat\sell\info.%d.log
+            </fileNamePattern>
+        </rollingPolicy>
+
+    </appender>
+
+    <!-- 负责 滚动 打印 Error 日志  -->
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender"> <!-- RollingFileAppender 类，可以滚动 输出 日志，即 每天 都生成 一个日志文件 -->
+        <!-- 过滤 ，只打印 error ；ThresholdFilter 根据范围过滤 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>
+                ERROR
+            </level>
+        </filter>
+
+        <encoder>
+            <pattern> <!-- 日志格式 -->
+                %msg%n
+            </pattern>
+        </encoder>
+
+        <!-- 配置滚动策略 --> <!-- TimeBasedRollingPolicy 是 按时间 滚动，每天 都生成 一个日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件 路径 -->
+            <fileNamePattern>
+                <!-- 直接在 文件名 里 带上 日期 -->
+                G:\JAVA\imooc_Java\Enterprise_WeChat_ordering_system_with_SpringBoot\log\tomcat\sell\error.%d.log
+            </fileNamePattern>
+        </rollingPolicy>
+
+    </appender>
+
+    <!-- root 就是 整个项目适用；这里设置 这个项目 的 日志 级别是 info -->
+    <root level="info">
+        <appender-ref ref="consoleLog" /> <!-- 关联一个appender，这个 appender 配置了 控台 的 日志显示  -->
+        <appender-ref ref="fileInfoLog" />
+        <appender-ref ref="fileErrorLog" />
+    </root>
+
+</configuration>
